@@ -366,7 +366,7 @@ This separation keeps the scientific calculation engine independent from the com
 ## 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/atinukeinyang-hue/radiotherapy-eqd2-calculator.git
 ```
 
 ## 2. Enter the Project Directory
