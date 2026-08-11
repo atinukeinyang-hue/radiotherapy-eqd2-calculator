@@ -12,14 +12,15 @@
 ![Radiobiology](https://img.shields.io/badge/RADIOBIOLOGY-LQ_MODEL-00A6A6?style=for-the-badge)
 ![BED](https://img.shields.io/badge/BED-CALCULATOR-8A2BE2?style=for-the-badge)
 ![EQD2](https://img.shields.io/badge/EQD2-CALCULATOR-D81B60?style=for-the-badge)
-![Pytest](https://img.shields.io/badge/PYTEST-TESTED-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
+![Pytest](https://img.shields.io/badge/TESTS-58_PASSING-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 ![Interface](https://img.shields.io/badge/INTERFACE-CLI-2F4F4F?style=for-the-badge)
+![Export](https://img.shields.io/badge/EXPORT-CSV_&_EXCEL-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
 ![Status](https://img.shields.io/badge/STATUS-ACTIVE_DEVELOPMENT-F39C12?style=for-the-badge)
 ![Version](https://img.shields.io/badge/VERSION-1.0.0-8A2BE2?style=for-the-badge)
 
 > 🚧 **Project Status: Active Development — Version 1.0.0**
 
-This project provides a tested Python implementation of physical dose, biologically effective dose (BED), equivalent dose in 2 Gy fractions (EQD2), and cumulative multi-course radiotherapy calculations.
+This project provides a tested Python implementation of physical dose, biologically effective dose (BED), equivalent dose in 2 Gy fractions (EQD2), cumulative multi-course radiotherapy calculations, and structured CSV and Excel result exports.
 
 ## A Python-Based Radiobiological Dose Calculator for Radiotherapy and Medical Physics
 
@@ -35,6 +36,8 @@ The **Radiotherapy BED/EQD2 Calculator** is a Python project for calculating:
 - Cumulative BED across multiple treatment courses
 - Cumulative EQD2 across multiple treatment courses
 - Combined EBRT and brachytherapy dose summaries
+- Structured CSV calculation records
+- Structured Excel calculation records
 
 The project combines:
 
@@ -43,6 +46,7 @@ The project combines:
 - Python programming
 - Input validation
 - Command-line interface design
+- CSV and Excel export
 - Automated scientific testing
 - Reproducible calculations
 
@@ -81,7 +85,14 @@ The calculator currently includes:
 - Multiple-course physical-dose summaries
 - Cumulative BED calculation
 - Cumulative EQD2 calculation
-- Command-line menu
+- Structured calculation records
+- Single-course CSV export
+- Multi-course CSV export
+- Single-course Excel export
+- Multi-course Excel export
+- Combined CSV and Excel export option
+- Automatic creation of the output directory
+- Command-line export menu
 - Positive-number validation
 - Whole-number fraction validation
 - Rejection of zero and negative inputs
@@ -93,6 +104,9 @@ The calculator currently includes:
 - Late-responding normal-tissue test cases
 - CLI workflow tests
 - Cumulative treatment-course tests
+- CSV content-verification tests
+- Excel content-verification tests
+- CLI export workflow tests
 
 ---
 
@@ -382,6 +396,79 @@ This demonstrates an important radiobiological principle:
 
 ---
 
+## 📤 Result Export
+
+After completing a single-course or cumulative calculation, the CLI displays:
+
+```text
+Export Results
+--------------
+1. Export to CSV
+2. Export to Excel
+3. Export to both CSV and Excel
+4. Do not export
+```
+
+### CSV export
+
+CSV exports contain these columns:
+
+```text
+component
+dose_per_fraction_gy
+number_of_fractions
+alpha_beta_gy
+total_physical_dose_gy
+bed_gy
+eqd2_gy
+```
+
+CSV files can be opened using:
+
+- Microsoft Excel
+- Google Sheets
+- LibreOffice Calc
+- Python
+- R
+- Other data-analysis tools
+
+### Excel export
+
+Excel results are written to a worksheet named:
+
+```text
+Radiotherapy Results
+```
+
+Excel files use the `.xlsx` format and are created with `openpyxl`.
+
+### Generated files
+
+Single-course exports use:
+
+```text
+outputs/single_treatment_result.csv
+outputs/single_treatment_result.xlsx
+```
+
+Cumulative exports use:
+
+```text
+outputs/cumulative_treatment_result.csv
+outputs/cumulative_treatment_result.xlsx
+```
+
+For cumulative calculations, exported records include:
+
+- Each individual treatment course
+- The cumulative physical-dose total
+- The cumulative BED
+- The cumulative EQD2
+
+The `outputs/` directory is created automatically and excluded from version control.
+
+---
+
 ## 📁 Project Structure
 
 ```text
@@ -391,38 +478,42 @@ radiotherapy-eqd2-calculator/
 │   ├── __init__.py
 │   ├── calculator.py
 │   ├── cumulative.py
+│   ├── export.py
 │   └── presets.py
 │
 ├── tests/
 │   ├── test_app.py
 │   ├── test_calculator.py
 │   ├── test_cumulative.py
+│   ├── test_export.py
 │   └── test_presets.py
 │
 ├── assets/
 │   └── radiotherapy-eqd2-banner.png
 │
+├── outputs/                  # Generated locally and Git-ignored
 ├── app.py
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-Local development directories such as:
+Local development and generated directories such as:
 
 ```text
 .venv/
 __pycache__/
 .pytest_cache/
+outputs/
 ```
 
 are excluded from version control.
 
 ---
 
-## ⚙️ Core Calculation Modules
+## ⚙️ Core Modules
 
-The scientific calculation logic is separated from the command-line interface.
+The scientific calculations, cumulative calculations, exports and command-line interface are separated into dedicated modules.
 
 ### Core calculations
 
@@ -451,6 +542,21 @@ calculate_cumulative_bed()
 calculate_cumulative_eqd2()
 ```
 
+### Result exports
+
+```text
+eqd2_calculator/export.py
+```
+
+This module contains:
+
+```python
+create_calculation_record()
+export_calculation_to_csv()
+export_calculations_to_csv()
+export_calculations_to_excel()
+```
+
 ### Alpha/Beta presets
 
 ```text
@@ -462,7 +568,21 @@ This module stores reusable conventional α/β presets for:
 - Tumours and early-responding tissues
 - Late-responding normal tissues
 
-Separating the scientific logic from the interface makes the functions easier to test, verify, reuse, and extend.
+Separating the scientific logic, exports and interface makes the functions easier to test, verify, reuse and extend.
+
+---
+
+## 📦 Dependencies
+
+The project currently uses:
+
+```text
+pytest==9.1.1
+openpyxl==3.1.5
+```
+
+- `pytest` runs the automated test suite.
+- `openpyxl` creates and verifies Excel `.xlsx` files.
 
 ---
 
@@ -542,6 +662,14 @@ BED
 EQD2
 ```
 
+The user can then export the result to:
+
+```text
+CSV
+Excel
+Both CSV and Excel
+```
+
 ### Cumulative Treatment Courses
 
 The calculator requests:
@@ -561,6 +689,8 @@ Total physical dose
 Cumulative BED
 Cumulative EQD2
 ```
+
+The individual courses and cumulative summary can then be exported to CSV, Excel or both formats.
 
 ---
 
@@ -588,7 +718,9 @@ The calculator also rejects:
 - Positive infinity
 - Negative infinity
 - Fewer than two courses for a cumulative calculation
-- Invalid menu options
+- Invalid main-menu options
+- Invalid export-menu options
+- Empty record collections during multi-record export
 
 Invalid inputs generate a clear error instead of silently producing an inappropriate result.
 
@@ -604,7 +736,11 @@ Run:
 python -m pytest
 ```
 
-The current test suite contains **48 passing tests**.
+The current test suite contains:
+
+```text
+58 passing tests
+```
 
 Testing covers:
 
@@ -627,6 +763,16 @@ Testing covers:
 - Combined EBRT and HDR brachytherapy
 - Empty treatment-course collections
 - Invalid cumulative treatment courses
+- Structured calculation records
+- Single-record CSV export
+- Multiple-record CSV export
+- Excel workbook creation
+- CSV headings and values
+- Excel headings and values
+- Empty export-record validation
+- Single-course CLI export
+- Cumulative-course CLI export
+- Automatic output-directory creation
 
 Approximate numerical comparison is used where appropriate to avoid false failures caused by normal floating-point representation.
 
@@ -645,7 +791,7 @@ Its calculations should also be:
 
 Automated tests help identify situations where future modifications unintentionally change previously verified calculations.
 
-This becomes increasingly important as the project grows to include additional radiobiological functionality.
+This becomes increasingly important as the project grows to include additional radiobiological functionality and export formats.
 
 ---
 
@@ -655,16 +801,17 @@ This project implements the standard Linear-Quadratic model.
 
 Important limitations include:
 
-- α/β values are model parameters and must be selected according to the relevant tissue, tumour, endpoint, clinical context, and supporting evidence.
+- α/β values are model parameters and must be selected according to the relevant tissue, tumour, endpoint, clinical context and supporting evidence.
 - BED and EQD2 are model-derived quantities rather than direct measurements of biological effect.
 - The basic LQ model does not represent every biological or clinical factor affecting radiation response.
 - Interpretation at very high doses per fraction requires appropriate caution.
 - Cumulative calculations assume that all courses refer to the same tissue or biological endpoint.
 - Cumulative calculations require a common α/β ratio.
 - The calculator does not currently model incomplete repair between fractions.
-- The calculator does not currently include time, repopulation, or treatment-gap corrections.
+- The calculator does not currently include time, repopulation or treatment-gap corrections.
 - The calculator does not account for spatial differences between treatment-course dose distributions.
 - Adding EQD2 values does not independently establish anatomical dose overlap.
+- Exported files are calculation records, not clinical treatment reports.
 - The calculator does not replace a treatment-planning system.
 - The calculator does not replace institutional clinical protocols.
 - The calculator does not replace qualified medical-physics or radiation-oncology judgment.
@@ -686,10 +833,10 @@ Future versions may include:
 ### Data
 
 - CSV input
-- CSV export
-- Excel export
 - Batch treatment-course calculations
 - Structured calculation reports
+- User-defined output filenames
+- Additional export formatting
 
 ### Software Engineering
 
@@ -727,7 +874,7 @@ It is **not intended to provide clinical treatment recommendations**.
 
 This software is an **educational and research-oriented project**.
 
-It is not a medical device and has not been independently validated, approved, or certified for clinical decision-making or patient treatment.
+It is not a medical device and has not been independently validated, approved or certified for clinical decision-making or patient treatment.
 
 Clinical radiobiological calculations must be independently verified using:
 

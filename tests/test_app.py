@@ -117,16 +117,20 @@ def test_rejects_invalid_main_menu_option(
     assert "Calculator closed" in output
 
 
-def test_complete_cli_calculation(
+def test_complete_cli_calculation_and_export(
     monkeypatch,
     capsys,
+    tmp_path,
 ):
+    monkeypatch.chdir(tmp_path)
+
     inputs = iter(
         [
             "1",
             "8",
             "3",
             "1",
+            "3",
             "3",
         ]
     )
@@ -140,11 +144,26 @@ def test_complete_cli_calculation(
 
     output = capsys.readouterr().out
 
+    csv_file = (
+        tmp_path
+        / "outputs"
+        / "single_treatment_result.csv"
+    )
+    excel_file = (
+        tmp_path
+        / "outputs"
+        / "single_treatment_result.xlsx"
+    )
+
     assert "Alpha/Beta value: 10.00 Gy" in output
     assert "Total physical dose: 24.00 Gy" in output
     assert "BED: 43.20 Gy10" in output
     assert "EQD2: 36.00 Gy" in output
+    assert "CSV file created" in output
+    assert "Excel file created" in output
     assert "Calculator closed" in output
+    assert csv_file.exists()
+    assert excel_file.exists()
 
 
 def test_course_count_requires_two_courses(
@@ -165,10 +184,13 @@ def test_course_count_requires_two_courses(
     assert "require at least 2 treatment courses" in output
 
 
-def test_complete_cumulative_cli_calculation(
+def test_complete_cumulative_cli_calculation_and_export(
     monkeypatch,
     capsys,
+    tmp_path,
 ):
+    monkeypatch.chdir(tmp_path)
+
     inputs = iter(
         [
             "2",
@@ -177,6 +199,7 @@ def test_complete_cumulative_cli_calculation(
             "1.8",
             "25",
             "8",
+            "3",
             "3",
             "3",
         ]
@@ -191,9 +214,24 @@ def test_complete_cumulative_cli_calculation(
 
     output = capsys.readouterr().out
 
+    csv_file = (
+        tmp_path
+        / "outputs"
+        / "cumulative_treatment_result.csv"
+    )
+    excel_file = (
+        tmp_path
+        / "outputs"
+        / "cumulative_treatment_result.xlsx"
+    )
+
     assert "Course 1: 1.8 Gy × 25" in output
     assert "Course 2: 8 Gy × 3" in output
     assert "Total physical dose: 69.00 Gy" in output
     assert "Cumulative BED: 96.30 Gy10" in output
     assert "Cumulative EQD2: 80.25 Gy" in output
+    assert "CSV file created" in output
+    assert "Excel file created" in output
     assert "Calculator closed" in output
+    assert csv_file.exists()
+    assert excel_file.exists()

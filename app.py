@@ -9,6 +9,13 @@ from eqd2_calculator.cumulative import (
     calculate_cumulative_bed,
     calculate_cumulative_eqd2,
 )
+from eqd2_calculator.export import (
+    CalculationRecord,
+    create_calculation_record,
+    export_calculation_to_csv,
+    export_calculations_to_csv,
+    export_calculations_to_excel,
+)
 from eqd2_calculator.presets import get_alpha_beta_preset
 
 
@@ -147,6 +154,76 @@ def display_single_course_results(
     print(f"EQD2: {eqd2:.2f} Gy")
 
 
+def offer_result_export(
+    records: list[CalculationRecord],
+    file_name: str,
+) -> None:
+    """Offer CSV and Excel export options."""
+
+    while True:
+        print("\nExport Results")
+        print("--------------")
+        print("1. Export to CSV")
+        print("2. Export to Excel")
+        print("3. Export to both CSV and Excel")
+        print("4. Do not export")
+
+        choice = input("Select an option (1-4): ").strip()
+
+        csv_path = f"outputs/{file_name}.csv"
+        excel_path = f"outputs/{file_name}.xlsx"
+
+        if choice == "1":
+            if len(records) == 1:
+                export_calculation_to_csv(
+                    records[0],
+                    csv_path,
+                )
+            else:
+                export_calculations_to_csv(
+                    records,
+                    csv_path,
+                )
+
+            print(f"CSV file created: {csv_path}")
+            return
+
+        if choice == "2":
+            export_calculations_to_excel(
+                records,
+                excel_path,
+            )
+            print(f"Excel file created: {excel_path}")
+            return
+
+        if choice == "3":
+            if len(records) == 1:
+                export_calculation_to_csv(
+                    records[0],
+                    csv_path,
+                )
+            else:
+                export_calculations_to_csv(
+                    records,
+                    csv_path,
+                )
+
+            export_calculations_to_excel(
+                records,
+                excel_path,
+            )
+
+            print(f"CSV file created: {csv_path}")
+            print(f"Excel file created: {excel_path}")
+            return
+
+        if choice == "4":
+            print("Results were not exported.")
+            return
+
+        print("Error: Select option 1, 2, 3, or 4.")
+
+
 def run_single_course_calculation() -> None:
     """Run a calculation for one fractionation course."""
 
@@ -168,6 +245,35 @@ def run_single_course_calculation() -> None:
         number_of_fractions,
         alpha_beta,
         preset_label,
+    )
+
+    total_dose = calculate_total_dose(
+        dose_per_fraction,
+        number_of_fractions,
+    )
+    bed = calculate_bed(
+        dose_per_fraction,
+        number_of_fractions,
+        alpha_beta,
+    )
+    eqd2 = calculate_eqd2(
+        bed,
+        alpha_beta,
+    )
+
+    record = create_calculation_record(
+        component="Single Treatment Course",
+        dose_per_fraction=dose_per_fraction,
+        number_of_fractions=number_of_fractions,
+        alpha_beta=alpha_beta,
+        total_physical_dose=total_dose,
+        bed=bed,
+        eqd2=eqd2,
+    )
+
+    offer_result_export(
+        records=[record],
+        file_name="single_treatment_result",
     )
 
 
@@ -209,6 +315,7 @@ def run_cumulative_calculation() -> None:
         )
 
     total_physical_dose = 0.0
+    records: list[CalculationRecord] = []
 
     print("\nCourse Breakdown")
     print("----------------")
@@ -234,6 +341,18 @@ def run_cumulative_calculation() -> None:
         )
 
         total_physical_dose += course_physical_dose
+
+        records.append(
+            create_calculation_record(
+                component=f"Treatment Course {course_number}",
+                dose_per_fraction=dose_per_fraction,
+                number_of_fractions=number_of_fractions,
+                alpha_beta=alpha_beta,
+                total_physical_dose=course_physical_dose,
+                bed=course_bed,
+                eqd2=course_eqd2,
+            )
+        )
 
         print(
             f"Course {course_number}: "
@@ -275,6 +394,23 @@ def run_cumulative_calculation() -> None:
     print(
         f"Cumulative EQD2: "
         f"{cumulative_eqd2:.2f} Gy"
+    )
+
+    records.append(
+        {
+            "component": "Cumulative Total",
+            "dose_per_fraction_gy": "N/A",
+            "number_of_fractions": "N/A",
+            "alpha_beta_gy": alpha_beta,
+            "total_physical_dose_gy": total_physical_dose,
+            "bed_gy": cumulative_bed,
+            "eqd2_gy": cumulative_eqd2,
+        }
+    )
+
+    offer_result_export(
+        records=records,
+        file_name="cumulative_treatment_result",
     )
 
 
