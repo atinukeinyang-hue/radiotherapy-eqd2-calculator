@@ -30,5 +30,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      - name: Run code-quality checks
+        run: python -m ruff check .
+
       - name: Run automated tests
         run: python -m pytest

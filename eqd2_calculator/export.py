@@ -4,9 +4,7 @@ import csv
 from pathlib import Path
 from typing import TypeAlias
 
-
 from openpyxl import Workbook
-
 
 CalculationRecord: TypeAlias = dict[str, str | int | float]
 

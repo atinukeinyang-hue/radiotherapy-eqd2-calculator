@@ -5,7 +5,6 @@ from eqd2_calculator.cumulative import (
     calculate_cumulative_eqd2,
 )
 
-
 EBRT_AND_HDR_COURSES = [
     (1.8, 25),
     (8.0, 3),

@@ -6,7 +6,6 @@ from eqd2_calculator.calculator import (
     calculate_total_dose,
 )
 
-
 # --------------------------------------------------
 # Core scientific calculation tests
 # --------------------------------------------------
