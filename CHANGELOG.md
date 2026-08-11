@@ -4,32 +4,25 @@ All notable changes to the Radiotherapy BED/EQD2 Calculator are documented in th
 
 The project follows semantic versioning.
 
-## [1.0.0] — 2026-08-11
+## [1.1.0] — 2026-08-11
 
 ### Added
 
-- Total physical dose calculation
-- Biologically Effective Dose calculation
-- Equivalent Dose in 2 Gy fractions calculation
-- Tumour and early-responding tissue α/β preset
-- Late-responding normal-tissue α/β preset
-- Custom α/β input
-- Single-course treatment workflow
-- Cumulative multi-course treatment workflow
-- Combined EBRT and brachytherapy calculations
-- Cumulative BED and EQD2 calculations
-- Positive and finite-number validation
-- Whole-number fraction validation
+- Safer command-line input validation
+- Tumour and late-tissue α/β presets
+- Custom α/β selection
+- Cumulative multi-course calculations
+- Combined EBRT and brachytherapy workflows
+- Cumulative physical dose, BED and EQD2
 - Structured calculation records
 - Single and multiple-record CSV export
 - Single and multiple-record Excel export
-- Automatic result-output directory creation
-- Command-line export menu
-- Automated testing with pytest
+- Automatic output-directory creation
+- GitHub Actions Continuous Integration
+- Ruff code-quality checks
 - Final scientific reference cases
-- Automated code-quality checks with Ruff
-- Continuous Integration with GitHub Actions
-- Project banner and complete technical documentation
+- Version changelog and release notes
+- Expanded Version 1.1 documentation
 
 ### Verification
 
@@ -38,13 +31,28 @@ The project follows semantic versioning.
 - Ruff code-quality checks passing
 - Dependency compatibility verified
 - Python syntax compilation verified
+- Final CLI smoke test passing
 - Conventional fractionation reference case verified
 - HDR tumour reference case verified
 - HDR late-tissue reference case verified
 - Cumulative EBRT and HDR tumour case verified
 - Cumulative EBRT and HDR late-tissue case verified
 
-### Important Notice
+## [1.0.0] — 2026-08-11
+
+### Added
+
+- Initial public release
+- Total physical dose calculation
+- Biologically Effective Dose calculation
+- Equivalent Dose in 2 Gy fractions calculation
+- Single-course command-line workflow
+- Positive input validation
+- Automated testing with pytest
+- Project banner
+- Installation and scientific documentation
+
+## Important Notice
 
 This software is intended for education, research demonstrations and scientific programming practice.
 

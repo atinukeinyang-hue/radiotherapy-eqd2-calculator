@@ -17,10 +17,10 @@
 ![CI](https://img.shields.io/badge/CI-GITHUB_ACTIONS-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Interface](https://img.shields.io/badge/INTERFACE-CLI-2F4F4F?style=for-the-badge)
 ![Export](https://img.shields.io/badge/EXPORT-CSV_&_EXCEL-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
-![Status](https://img.shields.io/badge/STATUS-ACTIVE_DEVELOPMENT-F39C12?style=for-the-badge)
-![Version](https://img.shields.io/badge/VERSION-1.0.0-8A2BE2?style=for-the-badge)
+![Status](https://img.shields.io/badge/STATUS-STABLE_RELEASE-2EA44F?style=for-the-badge)
+![Version](https://img.shields.io/badge/VERSION-1.1.0-8A2BE2?style=for-the-badge)
 
-> 🚧 **Project Status: Active Development — Version 1.0.0**
+> ✅ **Project Status: Stable Release — Version 1.1.0**
 
 A tested Python command-line application for calculating physical radiation dose, Biologically Effective Dose (BED), Equivalent Dose in 2 Gy fractions (EQD2), and cumulative radiobiological results across multiple radiotherapy treatment courses.
 
@@ -73,8 +73,6 @@ The calculator uses the **Linear-Quadratic model** to account for the influence 
 ---
 
 ## ✨ Current Features
-
-The calculator currently includes:
 
 ### Radiobiological Calculations
 
@@ -159,7 +157,7 @@ Physical dose alone does not account for the biological consequences of changing
 
 The calculator uses the **Linear-Quadratic model** as the basis for its radiobiological calculations.
 
-The model describes radiation effect using two components:
+The model describes radiation effect using:
 
 - **α (alpha):** linear component
 - **β (beta):** quadratic component
@@ -303,8 +301,6 @@ Cumulative EQD2: 80.25 Gy
 
 ## 🔬 Worked Example 1 — Conventional Fractionation
 
-Consider:
-
 ```text
 Dose per fraction = 2 Gy
 Number of fractions = 25
@@ -325,8 +321,6 @@ Because the schedule already uses 2 Gy fractions, its EQD2 equals its physical d
 
 ## 🎯 Worked Example 2 — HDR Tumour Calculation
 
-Consider:
-
 ```text
 Dose per fraction = 8 Gy
 Number of fractions = 3
@@ -345,8 +339,6 @@ EQD2          = 36.00 Gy
 
 ## 🫀 Worked Example 3 — Late-Responding Normal Tissue
 
-Consider:
-
 ```text
 Dose per fraction = 8 Gy
 Number of fractions = 3
@@ -360,8 +352,6 @@ Physical Dose = 24.00 Gy
 BED3          = 88.00 Gy3
 EQD2          = 52.80 Gy
 ```
-
-This demonstrates an important radiobiological principle:
 
 > The same physical fractionation schedule can produce different modelled biological effects depending on the α/β ratio used.
 
@@ -476,7 +466,7 @@ radiotherapy-eqd2-calculator/
 └── .gitignore
 ```
 
-Local development and generated directories such as:
+The following directories are excluded from version control:
 
 ```text
 .venv/
@@ -485,19 +475,13 @@ __pycache__/
 outputs/
 ```
 
-are excluded from version control.
-
 ---
 
 ## ⚙️ Core Modules
 
 ### Core Calculations
 
-```text
-eqd2_calculator/calculator.py
-```
-
-This module contains:
+`eqd2_calculator/calculator.py`
 
 ```python
 calculate_total_dose()
@@ -507,11 +491,7 @@ calculate_eqd2()
 
 ### Cumulative Calculations
 
-```text
-eqd2_calculator/cumulative.py
-```
-
-This module contains:
+`eqd2_calculator/cumulative.py`
 
 ```python
 calculate_cumulative_bed()
@@ -520,11 +500,7 @@ calculate_cumulative_eqd2()
 
 ### Result Exports
 
-```text
-eqd2_calculator/export.py
-```
-
-This module contains:
+`eqd2_calculator/export.py`
 
 ```python
 create_calculation_record()
@@ -535,22 +511,16 @@ export_calculations_to_excel()
 
 ### Alpha/Beta Presets
 
-```text
-eqd2_calculator/presets.py
-```
+`eqd2_calculator/presets.py`
 
 This module stores reusable conventional α/β presets for:
 
 - Tumours and early-responding tissues
 - Late-responding normal tissues
 
-Separating the scientific calculations, exports and interface makes the code easier to test, verify, reuse and extend.
-
 ---
 
 ## 📦 Dependencies
-
-The project currently uses:
 
 ```text
 pytest==9.1.1
@@ -602,8 +572,6 @@ python -m pip install -r requirements.txt
 
 ## ▶️ Running the Calculator
 
-From the project root, run:
-
 ```bash
 python app.py
 ```
@@ -631,7 +599,7 @@ Number of fractions
 Alpha/Beta selection
 ```
 
-It then displays:
+It displays:
 
 ```text
 Alpha/Beta value
@@ -653,7 +621,7 @@ Dose per fraction for each course
 Number of fractions for each course
 ```
 
-It then displays:
+It displays:
 
 ```text
 Individual course summaries
@@ -687,34 +655,32 @@ The calculator rejects:
 - NaN values
 - Positive infinity
 - Negative infinity
-- Fewer than two courses for a cumulative calculation
+- Fewer than two cumulative treatment courses
 - Invalid main-menu options
 - Invalid export-menu options
-- Empty record collections during multi-record export
-
-Invalid inputs generate a clear error instead of silently producing an inappropriate result.
+- Empty multi-record export collections
 
 ---
 
 ## 🔄 Continuous Integration and Code Quality
 
-The repository uses GitHub Actions to perform automated checks whenever changes are pushed to `main` or submitted through a pull request.
+GitHub Actions performs automated checks whenever changes are pushed to `main` or submitted through a pull request.
 
-The workflow automatically:
+The workflow:
 
 - Checks out the repository
 - Sets up Python 3.11
-- Installs the project dependencies
+- Installs project dependencies
 - Runs Ruff code-quality checks
-- Runs the complete pytest test suite
+- Runs the complete pytest suite
 
-The workflow file is located at:
+Workflow file:
 
 ```text
 .github/workflows/tests.yml
 ```
 
-Current workflow status:
+Current status:
 
 ```text
 Ruff checks: passed
@@ -725,7 +691,7 @@ Automated tests: 63 passed
 
 ## 🧪 Automated Scientific Testing
 
-Run the complete test suite with:
+Run the tests with:
 
 ```bash
 python -m pytest
@@ -748,41 +714,27 @@ Testing covers:
 - Total physical dose
 - BED
 - EQD2
-- Conventional 2 Gy fractionation
+- Conventional fractionation
 - HDR tumour fractionation
 - HDR late-tissue fractionation
-- Tumour α/β presets
-- Normal-tissue α/β presets
+- Tumour and normal-tissue presets
 - Custom α/β values
-- Invalid numeric inputs
-- Invalid data types
+- Invalid inputs and data types
 - NaN and infinite values
-- Single-course CLI workflows
-- Main-menu validation
-- Cumulative BED
-- Cumulative EQD2
+- Single and cumulative CLI workflows
+- Cumulative BED and EQD2
 - Combined EBRT and HDR brachytherapy
-- Empty treatment-course collections
-- Invalid cumulative treatment courses
 - Structured calculation records
-- Single-record CSV export
-- Multiple-record CSV export
-- Excel workbook creation
-- CSV headings and values
-- Excel headings and values
-- Empty export-record validation
-- Single-course CLI export
-- Cumulative-course CLI export
+- CSV and Excel exports
+- Exported headings and values
 - Automatic output-directory creation
 - Final mathematical reference cases
-
-Approximate numerical comparison is used where appropriate to avoid false failures caused by normal floating-point representation.
 
 ---
 
 ## 🔬 Final Scientific Verification Cases
 
-Version 1.0 includes five explicit mathematical reference cases in `tests/test_scientific_validation.py`.
+Version 1.1 includes five explicit mathematical reference cases in `tests/test_scientific_validation.py`.
 
 | Reference case | Alpha/Beta | Physical dose | BED | EQD2 |
 |---|---:|---:|---:|---:|
@@ -792,38 +744,19 @@ Version 1.0 includes five explicit mathematical reference cases in `tests/test_s
 | 1.8 Gy × 25 + 8 Gy × 3 | 10 Gy | 69.00 Gy | 96.30 Gy10 | 80.25 Gy |
 | 2 Gy × 25 + 8 Gy × 3 | 3 Gy | 74.00 Gy | 171.33 Gy3 | 102.80 Gy |
 
-These tests verify the mathematical implementation against independently determined expected values.
-
-They are software and mathematical verification cases, not evidence of clinical validation or medical-device approval.
-
----
-
-## 🧠 Why Automated Tests Matter
-
-Scientific software should not merely produce output.
-
-Its calculations should also be:
-
-- Verifiable
-- Reproducible
-- Traceable
-- Resistant to accidental regression
-
-Automated tests help identify situations where future modifications unintentionally change previously verified calculations.
-
-This becomes increasingly important as the project grows to include additional radiobiological functionality and export formats.
+These are software and mathematical verification cases, not evidence of clinical validation or medical-device approval.
 
 ---
 
 ## 🗒️ Version Documentation
 
-Version history is recorded in:
+Version history:
 
 ```text
 CHANGELOG.md
 ```
 
-Version 1.0 release information is recorded in:
+Version 1.1 release information:
 
 ```text
 RELEASE_NOTES.md
@@ -837,20 +770,19 @@ This project implements the standard Linear-Quadratic model.
 
 Important limitations include:
 
-- α/β values are model parameters and must be selected for the relevant tissue, tumour, endpoint, clinical context and supporting evidence.
-- BED and EQD2 are model-derived quantities rather than direct measurements of biological effect.
+- α/β values must be selected for the relevant tissue, tumour, endpoint, clinical context and supporting evidence.
+- BED and EQD2 are model-derived quantities, not direct measurements of biological effect.
 - The basic LQ model does not represent every biological or clinical factor affecting radiation response.
 - Interpretation at very high doses per fraction requires appropriate caution.
-- Cumulative calculations assume that all courses refer to the same tissue or biological endpoint.
-- Cumulative calculations require a common α/β ratio.
-- The calculator does not currently model incomplete repair between fractions.
-- The calculator does not currently include time, repopulation or treatment-gap corrections.
-- The calculator does not account for spatial differences between treatment-course dose distributions.
+- Cumulative calculations require the same tissue or biological endpoint and a common α/β ratio.
+- The calculator does not model incomplete repair between fractions.
+- The calculator does not include time, repopulation or treatment-gap corrections.
+- The calculator does not account for spatial differences between dose distributions.
 - Adding EQD2 values does not independently establish anatomical dose overlap.
 - Exported files are calculation records, not clinical treatment reports.
 - The calculator does not replace a treatment-planning system.
 - The calculator does not replace institutional clinical protocols.
-- The calculator does not replace qualified medical-physics or radiation-oncology judgment.
+- The calculator does not replace qualified professional judgment.
 
 ---
 
@@ -873,13 +805,6 @@ Future versions may include:
 - Structured calculation reports
 - User-defined output filenames
 - Additional export formatting
-
-### Software Engineering
-
-- Additional automated tests
-- Additional scientific verification cases
-- Improved error handling
-- Expanded Continuous Integration checks
 
 ### Application Development
 
