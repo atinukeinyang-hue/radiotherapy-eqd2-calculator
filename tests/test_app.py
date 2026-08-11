@@ -1,8 +1,8 @@
 import pytest
 
 from app import (
-    ask_to_continue,
     main,
+    read_course_count,
     read_positive_float,
     read_positive_integer,
     select_alpha_beta,
@@ -20,10 +20,7 @@ def test_positive_float_retries_invalid_inputs(
         lambda _: next(inputs),
     )
 
-    result = read_positive_float(
-        "Dose per fraction: "
-    )
-
+    result = read_positive_float("Dose per fraction: ")
     output = capsys.readouterr().out
 
     assert result == 8.0
@@ -46,7 +43,6 @@ def test_positive_integer_retries_invalid_inputs(
     result = read_positive_integer(
         "Number of fractions: "
     )
-
     output = capsys.readouterr().out
 
     assert result == 3
@@ -93,32 +89,47 @@ def test_accepts_custom_alpha_beta(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    ("response", "expected"),
+    "invalid_choice",
     [
-        ("y", True),
-        ("yes", True),
-        ("n", False),
-        ("no", False),
+        "0",
+        "4",
+        "invalid",
+        "",
     ],
 )
-def test_continue_responses(
+def test_rejects_invalid_main_menu_option(
     monkeypatch,
-    response,
-    expected,
+    capsys,
+    invalid_choice,
 ):
+    inputs = iter([invalid_choice, "3"])
+
     monkeypatch.setattr(
         "builtins.input",
-        lambda _: response,
+        lambda _: next(inputs),
     )
 
-    assert ask_to_continue() is expected
+    main()
+
+    output = capsys.readouterr().out
+
+    assert "Error: Select option 1, 2, or 3." in output
+    assert "Calculator closed" in output
 
 
 def test_complete_cli_calculation(
     monkeypatch,
     capsys,
 ):
-    inputs = iter(["8", "3", "1", "n"])
+    inputs = iter(
+        [
+            "1",
+            "8",
+            "3",
+            "1",
+            "3",
+        ]
+    )
 
     monkeypatch.setattr(
         "builtins.input",
@@ -133,4 +144,56 @@ def test_complete_cli_calculation(
     assert "Total physical dose: 24.00 Gy" in output
     assert "BED: 43.20 Gy10" in output
     assert "EQD2: 36.00 Gy" in output
+    assert "Calculator closed" in output
+
+
+def test_course_count_requires_two_courses(
+    monkeypatch,
+    capsys,
+):
+    inputs = iter(["1", "2"])
+
+    monkeypatch.setattr(
+        "builtins.input",
+        lambda _: next(inputs),
+    )
+
+    result = read_course_count()
+    output = capsys.readouterr().out
+
+    assert result == 2
+    assert "require at least 2 treatment courses" in output
+
+
+def test_complete_cumulative_cli_calculation(
+    monkeypatch,
+    capsys,
+):
+    inputs = iter(
+        [
+            "2",
+            "2",
+            "1",
+            "1.8",
+            "25",
+            "8",
+            "3",
+            "3",
+        ]
+    )
+
+    monkeypatch.setattr(
+        "builtins.input",
+        lambda _: next(inputs),
+    )
+
+    main()
+
+    output = capsys.readouterr().out
+
+    assert "Course 1: 1.8 Gy × 25" in output
+    assert "Course 2: 8 Gy × 3" in output
+    assert "Total physical dose: 69.00 Gy" in output
+    assert "Cumulative BED: 96.30 Gy10" in output
+    assert "Cumulative EQD2: 80.25 Gy" in output
     assert "Calculator closed" in output
