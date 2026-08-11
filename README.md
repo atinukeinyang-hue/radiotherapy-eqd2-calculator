@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="assets/radiotherapy-eqd2-banner.png"
        alt="Radiotherapy BED/EQD2 Calculator Banner"
@@ -7,20 +6,20 @@
 
 # 🧮 Radiotherapy BED/EQD2 Calculator
 
-![Python](https://img.shields.io/badge/PYTHON-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/PYTHON-3.11-3776AB?style=for-the-badge)
 ![Radiobiology](https://img.shields.io/badge/RADIOBIOLOGY-LQ_MODEL-00A6A6?style=for-the-badge)
 ![BED](https://img.shields.io/badge/BED-CALCULATOR-7B2CBF?style=for-the-badge)
-![EQD2](https://img.shields.io/badge/EQD2-CALCULATOR-C2185B?style=for-the-badge)
-![pytest](https://img.shields.io/badge/PYTEST-TESTED-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
-![CLI](https://img.shields.io/badge/INTERFACE-CLI-2F4F4F?style=for-the-badge)
+![EQD2](https://img.shields.io/badge/EQD2-CALCULATOR-D4145A?style=for-the-badge)
+![Pytest](https://img.shields.io/badge/PYTEST-40_PASSING-0EA5E9?style=for-the-badge)
+![Interface](https://img.shields.io/badge/INTERFACE-CLI-2F4F4F?style=for-the-badge)
 ![Status](https://img.shields.io/badge/STATUS-ACTIVE_DEVELOPMENT-F59E0B?style=for-the-badge)
-![Version](https://img.shields.io/badge/VERSION-V1.0.0-8A2BE2?style=for-the-badge)
+![Version](https://img.shields.io/badge/VERSION-v1.0.0-8A2BE2?style=for-the-badge)
 
-> 🚧 **Project Status: Active Development — Version 1.0.0**
+> 🚧 **Project Status: Active Development — Latest stable release: Version 1.0.0**
 >
-> This project provides a tested Python implementation of core BED and EQD2 calculations and is being developed further as a medical-physics software portfolio project.
+> The current development branch extends Version 1.0.0 with stronger validation, conventional α/β presets, a safer command-line interface, and expanded automated testing.
 
-# *A Python-Based Radiobiological Dose Calculator for Radiotherapy and Medical Physics*
+## *A Python-Based Radiobiological Dose Calculator for Radiotherapy and Medical Physics*
 
 ---
 
@@ -28,13 +27,13 @@
 
 The **Radiotherapy BED/EQD2 Calculator** is a Python-based project for calculating:
 
-- **Total Physical Dose**
-- **Biologically Effective Dose (BED)**
-- **Equivalent Dose in 2 Gy fractions (EQD2)**
+- Total physical dose
+- Biologically Effective Dose (BED)
+- Equivalent Dose in 2 Gy fractions (EQD2)
 
 for radiotherapy fractionation schedules.
 
-The project combines **radiobiology, medical physics, Python programming, input validation, and automated scientific testing**.
+The project combines **radiobiology, medical physics, Python programming, input validation, conventional α/β presets, and automated scientific testing**.
 
 Radiotherapy schedules cannot always be compared using total physical dose alone.
 
@@ -54,27 +53,37 @@ The calculator therefore uses the **Linear-Quadratic (LQ) model** to account for
 
 ## ✨ Current Features
 
-Version 1.0.0 currently includes:
+The current development branch includes:
 
 - Total physical dose calculation
 - BED calculation
 - EQD2 calculation
 - User-defined dose per fraction
 - User-defined number of fractions
-- User-defined α/β ratio
-- Command-line interface
-- Input validation
-- Automated testing with pytest
+- Tumour/early-responding tissue α/β preset of 10 Gy
+- Late-responding normal-tissue α/β preset of 3 Gy
+- Custom α/β entry
+- Safer interactive command-line interface
+- Repeated calculations without restarting the application
+- Clear error messages and retry prompts
+- Empty-input validation
+- Non-numeric-input validation
+- Non-finite-input validation
+- Zero and negative-input validation
+- Whole-number validation for fraction counts
+- Graceful cancellation with `Ctrl+C`
+- Automated scientific testing with pytest
 - Conventional fractionation test cases
-- HDR fractionation test cases
-- Tumour calculations using α/β = 10 Gy
-- Late-responding normal-tissue calculations using α/β = 3 Gy
+- HDR tumour fractionation test cases
+- HDR late-responding tissue fractionation test cases
+- End-to-end CLI testing
+- **40 passing automated tests**
 
 ---
 
-# 🧬 Scientific Background
+## 🧬 Scientific Background
 
-## 1. Total Physical Dose
+### 1. Total Physical Dose
 
 For a fractionation schedule where:
 
@@ -97,7 +106,7 @@ However, physical dose alone does not account for the biological consequences of
 
 ---
 
-## 2. Linear-Quadratic Model
+### 2. Linear-Quadratic Model
 
 The calculator uses the **Linear-Quadratic model** as the basis for its radiobiological calculations.
 
@@ -110,11 +119,11 @@ The **α/β ratio** describes the sensitivity of a particular tissue or biologic
 
 ---
 
-## 3. Alpha/Beta Ratio
+### 3. Alpha/Beta Ratio
 
 Different tissues and tumour endpoints may have different α/β values.
 
-### High α/β
+#### High α/β
 
 A commonly used conventional value for many tumours and early-responding tissues is:
 
@@ -128,7 +137,7 @@ These calculations are often described using notation such as:
 BED10
 ```
 
-### Low α/β
+#### Low α/β
 
 A commonly used conventional value for many late-responding normal-tissue endpoints is:
 
@@ -154,7 +163,7 @@ The appropriate α/β ratio depends on factors including:
 
 ---
 
-# 🧮 BED Calculation
+## 🧮 BED Calculation
 
 The **Biologically Effective Dose** is calculated using:
 
@@ -174,9 +183,9 @@ BED provides a model-based representation of the biological effect of a fraction
 
 ---
 
-# 📊 EQD2 Calculation
+## 📊 EQD2 Calculation
 
-**Equivalent Dose in 2 Gy fractions (EQD2)** converts BED into the equivalent dose that would produce the same modeled biological effect if delivered using 2 Gy fractions.
+**Equivalent Dose in 2 Gy fractions (EQD2)** converts BED into the equivalent dose that would produce the same modelled biological effect if delivered using 2 Gy fractions.
 
 The equation is:
 
@@ -184,11 +193,11 @@ The equation is:
 EQD2 = BED / (1 + 2 / (α/β))
 ```
 
-This allows different fractionation schedules to be compared using a common 2 Gy-per-fraction reference.
+This allows different fractionation schedules to be compared using a common 2-Gy-per-fraction reference.
 
 ---
 
-# 🔬 Worked Example 1 — Conventional Fractionation
+## 🔬 Worked Example 1 — Conventional Fractionation
 
 Consider:
 
@@ -228,7 +237,7 @@ Because this schedule already uses **2 Gy fractions**, its EQD2 equals its physi
 
 ---
 
-# 🎯 Worked Example 2 — HDR Tumour Calculation
+## 🎯 Worked Example 2 — HDR Tumour Calculation
 
 Consider:
 
@@ -266,9 +275,9 @@ EQD2          = 36.00 Gy
 
 ---
 
-# 🫀 Worked Example 3 — Late-Responding Normal Tissue
+## 🫀 Worked Example 3 — Late-Responding Normal Tissue
 
-Now use exactly the same physical fractionation:
+Now use the same physical fractionation:
 
 ```text
 Dose per fraction = 8 Gy
@@ -304,21 +313,24 @@ EQD2          = 52.80 Gy
 
 This demonstrates an important radiobiological principle:
 
-> **The same physical fractionation schedule can produce very different modeled biological effects depending on the α/β ratio used.**
+> **The same physical fractionation schedule can produce very different modelled biological effects depending on the α/β ratio used.**
 
 ---
 
-# 🗂️ Project Structure
+## 📁 Project Structure
 
 ```text
 radiotherapy-eqd2-calculator/
 │
 ├── eqd2_calculator/
 │   ├── __init__.py
-│   └── calculator.py
+│   ├── calculator.py
+│   └── presets.py
 │
 ├── tests/
-│   └── test_calculator.py
+│   ├── test_app.py
+│   ├── test_calculator.py
+│   └── test_presets.py
 │
 ├── assets/
 │   └── radiotherapy-eqd2-banner.png
@@ -341,7 +353,7 @@ are excluded from version control.
 
 ---
 
-# ⚙️ Core Calculation Functions
+## ⚙️ Core Calculation Functions
 
 The scientific calculation logic is separated from the user interface and stored in:
 
@@ -359,29 +371,44 @@ calculate_eqd2()
 
 This separation keeps the scientific calculation engine independent from the command-line interface and makes the functions easier to test and extend.
 
+The conventional α/β presets are stored separately in:
+
+```text
+eqd2_calculator/presets.py
+```
+
+This module currently provides:
+
+```text
+tumour       = 10 Gy
+late_tissue  = 3 Gy
+```
+
+The values are presented as conventional educational defaults and should be verified against the relevant tissue, endpoint, clinical context, and supporting evidence.
+
 ---
 
-# 💻 Installation
+## 💻 Installation
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/atinukeinyang-hue/radiotherapy-eqd2-calculator.git
 ```
 
-## 2. Enter the Project Directory
+### 2. Enter the Project Directory
 
 ```bash
 cd radiotherapy-eqd2-calculator
 ```
 
-## 3. Create a Virtual Environment
+### 3. Create a Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-## 4. Activate the Virtual Environment
+### 4. Activate the Virtual Environment
 
 On Windows PowerShell:
 
@@ -389,7 +416,7 @@ On Windows PowerShell:
 .\.venv\Scripts\Activate.ps1
 ```
 
-## 5. Install Dependencies
+### 5. Install Dependencies
 
 ```bash
 python -m pip install -r requirements.txt
@@ -397,7 +424,7 @@ python -m pip install -r requirements.txt
 
 ---
 
-# ▶️ Running the Calculator
+## ▶️ Running the Calculator
 
 From the project root, run:
 
@@ -410,10 +437,17 @@ The calculator asks for:
 ```text
 Dose per fraction (Gy):
 Number of fractions:
-Alpha/Beta (Gy):
 ```
 
-Example:
+It then displays the α/β selection menu:
+
+```text
+1. Tumour / early-responding tissue (10 Gy)
+2. Late-responding normal tissue (3 Gy)
+3. Enter a custom alpha/beta value
+```
+
+### Example
 
 ```text
 Radiotherapy BED/EQD2 Calculator
@@ -421,14 +455,33 @@ Radiotherapy BED/EQD2 Calculator
 
 Dose per fraction (Gy): 8
 Number of fractions: 3
-Alpha/Beta (Gy): 10
+
+Alpha/Beta Selection
+--------------------
+1. Tumour / early-responding tissue (10 Gy)
+2. Late-responding normal tissue (3 Gy)
+3. Enter a custom alpha/beta value
+
+Select an option (1-3): 1
 ```
 
-The application then calculates the physical dose, BED, and EQD2.
+The application produces:
+
+```text
+Results
+-------
+Alpha/Beta selection: Tumour / early-responding tissue
+Alpha/Beta value: 10.00 Gy
+Total physical dose: 24.00 Gy
+BED: 43.20 Gy10
+EQD2: 36.00 Gy
+```
+
+After displaying the results, the user can perform another calculation or close the calculator.
 
 ---
 
-# 🛡️ Input Validation
+## 🛡️ Input Validation
 
 The calculator includes input validation to prevent invalid values from being processed.
 
@@ -438,13 +491,27 @@ The scientific calculation functions require valid positive inputs such as:
 Dose per fraction > 0
 Number of fractions > 0
 Alpha/Beta > 0
+BED > 0
 ```
 
-Invalid inputs generate an error instead of silently producing an inappropriate calculation.
+The calculator also rejects:
+
+- Empty input
+- Letters and other non-numeric input
+- `NaN`
+- Positive infinity
+- Negative infinity
+- Zero
+- Negative values
+- Decimal fraction counts
+- Boolean values passed into the scientific functions
+- Unknown preset names
+
+Invalid CLI input generates a clear error and another prompt instead of crashing the application.
 
 ---
 
-# 🧪 Automated Scientific Testing
+## 🧪 Automated Scientific Testing
 
 The project uses **pytest** for automated testing.
 
@@ -454,9 +521,7 @@ Run:
 python -m pytest
 ```
 
-The test suite checks the scientific calculation functions against known expected results.
-
-Current testing includes:
+The current test suite contains **40 passing tests** covering:
 
 - Total physical dose
 - BED
@@ -464,6 +529,18 @@ Current testing includes:
 - Conventional 2 Gy fractionation
 - HDR tumour fractionation
 - HDR late-responding tissue fractionation
+- Zero and negative inputs
+- Invalid data types
+- Non-finite values
+- Whole-number fraction validation
+- Tumour preset selection
+- Late-tissue preset selection
+- Preset-name normalization
+- Unknown and empty preset names
+- Custom α/β entry
+- CLI retry behaviour
+- Continue and exit responses
+- Complete end-to-end CLI calculation
 
 For floating-point calculations, approximate numerical comparison is used where appropriate to avoid false failures caused by normal floating-point representation.
 
@@ -483,7 +560,7 @@ even though the values are effectively equivalent for the calculation.
 
 ---
 
-# 🧠 Why Automated Tests Matter
+## 🧠 Why Automated Tests Matter
 
 Scientific software should not merely produce output.
 
@@ -495,32 +572,32 @@ This becomes increasingly important as the project grows to include additional r
 
 ---
 
-# ⚠️ Scientific Limitations
+## ⚠️ Scientific Limitations
 
 This project currently implements the standard Linear-Quadratic model.
 
 Important limitations include:
 
 - α/β values are model parameters and should be selected according to the relevant tissue, tumour, endpoint, clinical context, and supporting evidence.
+- The current presets are conventional educational defaults rather than universal biological constants.
 - BED and EQD2 are model-derived quantities rather than direct measurements of biological effect.
 - The basic LQ model does not represent every biological or clinical factor affecting radiation response.
 - Interpretation of LQ-model calculations at very high doses per fraction requires appropriate caution.
 - The current calculator evaluates individual fractionation schedules.
-- The current version does not yet provide full cumulative EBRT + brachytherapy EQD2 functionality.
+- The current version does not yet provide full cumulative EBRT plus brachytherapy EQD2 functionality.
 - The calculator does not replace a treatment-planning system.
 - The calculator does not replace institutional clinical protocols or qualified medical-physics judgment.
 
 ---
 
-# 🚀 Planned Development
+## 🚀 Planned Development
 
 Future versions may include:
 
 ### Radiobiology
 
-- Tumour α/β presets
-- OAR α/β presets
-- Combined EBRT + brachytherapy calculations
+- Organ-specific OAR α/β presets
+- Combined EBRT plus brachytherapy calculations
 - Cumulative EQD2
 - Multiple fractionation-course comparison
 
@@ -532,20 +609,19 @@ Future versions may include:
 
 ### Software Engineering
 
-- Expanded validation
-- Additional automated tests
 - Additional scientific validation cases
-- Improved error handling
+- More detailed error reporting
+- Continuous integration with GitHub Actions
+- Expanded documentation
 
 ### Application Development
 
-- Improved command-line interface
 - Web interface
 - REST API integration
 
 ---
 
-# 🎓 Intended Use
+## 🎓 Intended Use
 
 This project is intended for:
 
@@ -560,7 +636,7 @@ It is **not intended to provide clinical treatment recommendations**.
 
 ---
 
-# ⚕️ Disclaimer
+## ⚕️ Disclaimer
 
 This software is an **educational and research-oriented project**.
 
@@ -570,14 +646,16 @@ Clinical radiobiological calculations should be independently verified using app
 
 ---
 
-# 👩🏽‍💻 Author
+## 👩🏽‍💻 Author
 
 **Atinuke A. Inyang**
 
 Medical Physics • Radiotherapy • Healthcare AI • Python
 
+GitHub: [atinukeinyang-hue](https://github.com/atinukeinyang-hue)
+
 ---
 
-### Built around three principles:
+## Built Around Three Principles
 
 **Scientific grounding • Reproducibility • Transparent calculation**
