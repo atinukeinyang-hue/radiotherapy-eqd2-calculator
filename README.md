@@ -12,7 +12,7 @@
 ![Radiobiology](https://img.shields.io/badge/RADIOBIOLOGY-LQ_MODEL-00A6A6?style=for-the-badge)
 ![BED](https://img.shields.io/badge/BED-CALCULATOR-8A2BE2?style=for-the-badge)
 ![EQD2](https://img.shields.io/badge/EQD2-CALCULATOR-D81B60?style=for-the-badge)
-![Pytest](https://img.shields.io/badge/TESTS-58_PASSING-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
+![Pytest](https://img.shields.io/badge/TESTS-63_PASSING-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 ![Interface](https://img.shields.io/badge/INTERFACE-CLI-2F4F4F?style=for-the-badge)
 ![Export](https://img.shields.io/badge/EXPORT-CSV_&_EXCEL-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
 ![Status](https://img.shields.io/badge/STATUS-ACTIVE_DEVELOPMENT-F39C12?style=for-the-badge)
@@ -47,6 +47,23 @@ The project combines:
 - Input validation
 - Command-line interface design
 - CSV and Excel export
+
+## 🔄 Continuous Integration and Code Quality
+
+The repository uses GitHub Actions to perform automated checks whenever changes are pushed to the `main` branch or submitted through a pull request.
+
+The workflow automatically:
+
+- Checks out the repository
+- Sets up Python 3.11
+- Installs the project dependencies
+- Runs Ruff code-quality checks
+- Runs the complete pytest test suite
+
+The workflow file is located at:
+
+```text
+.github/workflows/tests.yml
 - Automated scientific testing
 - Reproducible calculations
 
@@ -471,8 +488,11 @@ The `outputs/` directory is created automatically and excluded from version cont
 
 ## 📁 Project Structure
 
-```text
-radiotherapy-eqd2-calculator/
+```radiotherapy-eqd2-calculator/
+│
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 │
 ├── eqd2_calculator/
 │   ├── __init__.py
@@ -486,13 +506,16 @@ radiotherapy-eqd2-calculator/
 │   ├── test_calculator.py
 │   ├── test_cumulative.py
 │   ├── test_export.py
-│   └── test_presets.py
+│   ├── test_presets.py
+│   └── test_scientific_validation.py
 │
 ├── assets/
 │   └── radiotherapy-eqd2-banner.png
 │
 ├── outputs/                  # Generated locally and Git-ignored
 ├── app.py
+├── CHANGELOG.md
+├── RELEASE_NOTES.md
 ├── README.md
 ├── requirements.txt
 └── .gitignore
@@ -579,10 +602,12 @@ The project currently uses:
 ```text
 pytest==9.1.1
 openpyxl==3.1.5
+ruff==0.16.2
 ```
 
 - `pytest` runs the automated test suite.
 - `openpyxl` creates and verifies Excel `.xlsx` files.
+- `ruff` performs automated Python code-quality checks.
 
 ---
 
@@ -739,7 +764,7 @@ python -m pytest
 The current test suite contains:
 
 ```text
-58 passing tests
+63 passing tests
 ```
 
 Testing covers:
@@ -777,6 +802,13 @@ Testing covers:
 Approximate numerical comparison is used where appropriate to avoid false failures caused by normal floating-point representation.
 
 ---
+
+## 🔬 Final Scientific Verification Cases
+
+Version 1.0 includes five explicit mathematical reference cases in:
+
+```text
+tests/test_scientific_validation.py
 
 ## 🧠 Why Automated Tests Matter
 
